@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>SuperIA - Admin</title>
+  <style>
+    body { background: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { text-align: center; padding: 20px; font-size: 24px; font-weight: bold; }
+    #chat { margin: 20px; height: 60vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
+    #input { position: fixed; bottom: 50px; width: 100%; display: flex; justify-content: center; }
+    input[type="text"] { width: 60%; padding: 10px; }
+    button { padding: 10px; margin-left: 5px; }
+    #admin-buttons { position: fixed; bottom: 10px; width: 100%; text-align: center; }
+    #admin-buttons button { margin: 0 5px; }
+    p { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <header>SuperIA Admin</header>
+  <div id="chat"></div>
+  <div id="input">
+    <input type="text" id="question" placeholder="Posez votre question ou test...">
+    <button onclick="sendQuestion()">Envoyer</button>
+  </div>
+  <div id="admin-buttons">
+    <button onclick="replyManually()">Répondre manuellement</button>
+    <button onclick="replyWithAI()">Laisser l'IA répondre</button>
+  </div>
+
+  <script>
+    const messages = [];
+
+    function appendMessage(sender, message) {
+      messages.push({ sender, message });
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<p><b>${sender}:</b> ${message}</p>`;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendQuestion() {
+      const q = document.getElementById('question').value.trim();
+      if (!q) return;
+      appendMessage('Utilisateur', q);
+      document.getElementById('question').value = '';
+    }
+
+    function replyManually() {
+      const answer = prompt("Tapez votre réponse à l'utilisateur :");
+      if (answer) appendMessage('Admin', answer);
+    }
+
+    function replyWithAI() {
+      const lastMessage = messages.slice().reverse().find(m => m.sender === 'Utilisateur');
+      if (!lastMessage) return alert("Pas de message utilisateur à répondre.");
+      const answer = "Réponse IA simulée à: " + lastMessage.message;
+      appendMessage('SuperIA', answer);
+    }
+  </script>
+</body>
+</html>
