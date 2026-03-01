@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>SuperIA - Utilisateur</title>
+  <style>
+    body { background: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { text-align: center; padding: 20px; font-size: 24px; font-weight: bold; }
+    #chat { margin: 20px; height: 70vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
+    #input { position: fixed; bottom: 10px; width: 100%; display: flex; justify-content: center; }
+    input[type="text"] { width: 60%; padding: 10px; }
+    button { padding: 10px; margin-left: 5px; }
+    p { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <header>SuperIA</header>
+  <div id="chat"></div>
+  <div id="input">
+    <input type="text" id="question" placeholder="Posez votre question...">
+    <button onclick="sendQuestion()">Envoyer</button>
+  </div>
+
+  <script>
+    function appendMessage(sender, message) {
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<p><b>${sender}:</b> ${message}</p>`;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function sendQuestion() {
+      const q = document.getElementById('question').value.trim();
+      if (!q) return;
+      appendMessage('Vous', q);
+
+      // Simulation de réponse IA (à remplacer par backend réel)
+      const response = "Voici une réponse automatique de l'IA à votre question: " + q;
+
+      appendMessage('SuperIA', response);
+      document.getElementById('question').value = '';
+    }
+  </script>
+</body>
+</html>
